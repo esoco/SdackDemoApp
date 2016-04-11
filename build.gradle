@@ -1,0 +1,37 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
+    }
+}
+
+apply plugin: 'eclipse'
+apply plugin: 'war'
+apply plugin: 'gwt'
+
+project.version = "1.0.0"
+
+repositories {
+	jcenter()
+}
+
+dependencies {
+	compile project(':sdack')
+    testCompile 'junit:junit:4.+'
+}
+
+eclipse {
+	jdt {
+		sourceCompatibility = "1.7"
+		targetCompatibility = "1.7"
+	}
+}
+
+war { archiveName 'SdackDemoApp.war' }
+
+gwt {
+    gwtVersion = '2.7.0'
+    modules 'org.sdack.app.demo.SdackDemoApp'
+}

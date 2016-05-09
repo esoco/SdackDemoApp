@@ -113,7 +113,10 @@ public class SdackDemoAppRootPanel
 		if (rProcessState != null && !rProcessState.isFinished())
 		{
 			aProcessPanelManager =
-				new ProcessPanelManager(this, rProcessState.getName(), false);
+				new ProcessPanelManager(this,
+										rProcessState.getName(),
+										false,
+										false);
 
 			build(aProcessPanelManager, MAIN_PANEL_STYLE);
 

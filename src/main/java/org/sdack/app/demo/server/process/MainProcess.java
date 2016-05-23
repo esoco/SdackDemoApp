@@ -70,8 +70,7 @@ public class MainProcess extends EntityProcessDefinition
 		@Override
 		public void init() throws Exception
 		{
-			textParam("Welcome").display()
-								.value("Welcome to the SDACK demo application.");
+			label("Welcome to the SDACK demo application.");
 		}
 	}
 }

@@ -19,6 +19,8 @@ repositories {
 
 dependencies {
 	compile project(':sdack')
+	compile 'com.h2database:h2:1.+'
+	
     testCompile 'junit:junit:4.+'
 }
 

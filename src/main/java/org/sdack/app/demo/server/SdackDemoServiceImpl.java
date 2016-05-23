@@ -16,23 +16,28 @@
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 package org.sdack.app.demo.server;
 
-import de.esoco.data.document.TabularDocumentWriter;
-import de.esoco.data.element.DataElementList;
-import de.esoco.data.element.StringDataElement;
-
-import de.esoco.entity.Entity;
-import de.esoco.entity.EntityManager;
-
-import de.esoco.gwt.server.GwtApplicationServiceImpl;
-import de.esoco.gwt.shared.AuthenticationException;
-import de.esoco.gwt.shared.ServiceException;
-
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 
 import org.sdack.app.demo.server.entity.Person;
 import org.sdack.app.demo.server.process.MainProcess;
 import org.sdack.app.demo.shared.SdackDemoService;
+
+import de.esoco.data.document.TabularDocumentWriter;
+import de.esoco.data.element.DataElementList;
+import de.esoco.data.element.StringDataElement;
+import de.esoco.entity.Entity;
+import de.esoco.entity.EntityManager;
+import de.esoco.entity.ExtraAttribute;
+import de.esoco.gwt.server.GwtApplicationServiceImpl;
+import de.esoco.gwt.shared.AuthenticationException;
+import de.esoco.gwt.shared.ServiceException;
+import de.esoco.history.HistoryRecord;
+import de.esoco.lib.logging.Log;
+import de.esoco.storage.Storage;
+import de.esoco.storage.StorageDefinition;
+import de.esoco.storage.StorageManager;
+import de.esoco.storage.impl.jdbc.JdbcStorageDefinition;
 
 
 /********************************************************************
@@ -63,6 +68,32 @@ public class SdackDemoServiceImpl extends GwtApplicationServiceImpl<Person>
 	public void init(ServletConfig rConfig) throws ServletException
 	{
 		super.init(rConfig);
+		
+		try 
+		{
+			Class.forName("org.h2.Driver");
+			
+			StorageDefinition aStorageDef = JdbcStorageDefinition.create("jdbc:h2:mem:testdb;user=sa;password=");
+			
+			StorageManager.setDefaultStorage(aStorageDef);
+			
+			Storage rStorage = StorageManager.getStorage(Person.class);
+			
+			try {
+				rStorage.initObjectStorage(Person.class);
+				rStorage.initObjectStorage(HistoryRecord.class);
+				rStorage.initObjectStorage(ExtraAttribute.class);
+			}
+			finally
+			{
+				rStorage.release();
+			}
+		}
+		catch (Exception e) {
+			
+			Log.fatal("Database initialization failed", e);
+			throw new ServletException(e);
+		}
 
 		EntityManager.init(Person.class);
 	}

@@ -34,8 +34,10 @@ import de.esoco.gwt.shared.AuthenticationException;
 import de.esoco.gwt.shared.ServiceException;
 import de.esoco.history.HistoryRecord;
 import de.esoco.lib.logging.Log;
+import de.esoco.lib.security.BCrypt;
 import de.esoco.storage.Storage;
 import de.esoco.storage.StorageDefinition;
+import de.esoco.storage.StorageException;
 import de.esoco.storage.StorageManager;
 import de.esoco.storage.impl.jdbc.JdbcStorageDefinition;
 
@@ -71,9 +73,11 @@ public class SdackDemoServiceImpl extends GwtApplicationServiceImpl<Person>
 		
 		try 
 		{
+			EntityManager.init(Person.class, HistoryRecord.class, ExtraAttribute.class);
+
 			Class.forName("org.h2.Driver");
 			
-			StorageDefinition aStorageDef = JdbcStorageDefinition.create("jdbc:h2:mem:testdb;user=sa;password=");
+			StorageDefinition aStorageDef = JdbcStorageDefinition.create("jdbc:h2:./test.db");
 			
 			StorageManager.setDefaultStorage(aStorageDef);
 			
@@ -88,6 +92,20 @@ public class SdackDemoServiceImpl extends GwtApplicationServiceImpl<Person>
 			{
 				rStorage.release();
 			}
+			
+			Person aAdminUser = EntityManager.queryEntity(Person.class, 
+					Person.LOGIN_NAME, "admin", true);
+			
+			if (aAdminUser == null)
+			{
+				aAdminUser = new Person();
+				
+				aAdminUser.set(Person.NAME, "Administrator");
+				aAdminUser.set(Person.LOGIN_NAME, "admin");
+				aAdminUser.set(Person.PASSWORD_HASH, BCrypt.hashpw("admin", BCrypt.gensalt()));
+				
+				EntityManager.storeEntity(aAdminUser, aAdminUser);
+			}
 		}
 		catch (Exception e) {
 			
@@ -95,7 +113,6 @@ public class SdackDemoServiceImpl extends GwtApplicationServiceImpl<Person>
 			throw new ServletException(e);
 		}
 
-		EntityManager.init(Person.class);
 	}
 
 	/***************************************
@@ -105,9 +122,30 @@ public class SdackDemoServiceImpl extends GwtApplicationServiceImpl<Person>
 	protected Person authenticate(StringDataElement rLoginData)
 		throws AuthenticationException
 	{
-		Person aUser = new Person();
+		String sLoginName = rLoginData.getName();
+		String sPassword = rLoginData.getValue();
 
-		aUser.set(Person.LOGIN_NAME, rLoginData.getName());
+		Person aUser;
+		try 
+		{
+			aUser = EntityManager.queryEntity(Person.class, 
+					Person.LOGIN_NAME, sLoginName, true);
+			
+			if (aUser == null)
+			{
+				throw new AuthenticationException("msgAuthenticationFailed");
+			}
+			
+			if (!BCrypt.checkpw(sPassword, aUser.get(Person.PASSWORD_HASH)))
+			{
+				throw new AuthenticationException("msgAuthenticationFailed");
+			}
+			
+		} catch (StorageException e) 
+		{
+			throw new AuthenticationException("msgAuthenticationFailed");
+		}
+
 
 		return aUser;
 	}

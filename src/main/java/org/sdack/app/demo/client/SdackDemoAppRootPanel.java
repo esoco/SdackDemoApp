@@ -17,14 +17,13 @@
 package org.sdack.app.demo.client;
 
 import de.esoco.data.element.DataElementList;
-
 import de.esoco.ewt.build.ContainerBuilder;
 import de.esoco.ewt.component.Panel;
 import de.esoco.ewt.layout.DockLayout;
 import de.esoco.ewt.style.AlignedPosition;
 import de.esoco.ewt.style.StyleData;
-
 import de.esoco.gwt.client.app.ProcessPanelManager;
+import de.esoco.gwt.client.ui.LoginPanelManager;
 import de.esoco.gwt.shared.ProcessState;
 
 
@@ -41,13 +40,11 @@ public class SdackDemoAppRootPanel
 	private static final StyleData MAIN_PANEL_STYLE =
 		addStyles(AlignedPosition.CENTER, SdackDemoApp.css().sdaMainPanel());
 
+	private DataElementList     rUserData;
+
 	//~ Instance fields --------------------------------------------------------
 
-	private DataElementList     rUserData;
 	private ProcessPanelManager aProcessPanelManager;
-
-	//~ Constructors -----------------------------------------------------------
-
 	/***************************************
 	 * Creates a new instance.
 	 */
@@ -58,7 +55,7 @@ public class SdackDemoAppRootPanel
 		setLoginMode(LoginMode.PAGE);
 	}
 
-	//~ Methods ----------------------------------------------------------------
+	//~ Constructors -----------------------------------------------------------
 
 	/***************************************
 	 * Root implementation that displays the message in the top panel.
@@ -69,6 +66,8 @@ public class SdackDemoAppRootPanel
 	public void displayMessage(String sMessage, int nDisplayTime)
 	{
 	}
+
+	//~ Methods ----------------------------------------------------------------
 
 	/***************************************
 	 * {@inheritDoc}
@@ -91,6 +90,16 @@ public class SdackDemoAppRootPanel
 		// initiate authentication; on success the method userAuthenticated()
 		// will be invoked
 		checkAuthentication();
+	}
+
+	@Override
+	protected LoginPanelManager buildLoginPanel(ContainerBuilder<?> rBuilder, boolean bReauthenticate)
+	{
+		LoginPanel aLoginPanel = new LoginPanel(this, this, "SDACKDEMO", bReauthenticate);
+
+		aLoginPanel.buildIn(rBuilder, StyleData.DEFAULT);
+
+		return aLoginPanel;
 	}
 
 	/***************************************

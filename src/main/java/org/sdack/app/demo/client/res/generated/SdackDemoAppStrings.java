@@ -52,6 +52,15 @@ public interface SdackDemoAppStrings extends com.google.gwt.i18n.client.Constant
   String btnLogin();
 
   /**
+   * Translated "Login with existing account".
+   * 
+   * @return translated "Login with existing account"
+   */
+  @DefaultStringValue("Login with existing account")
+  @Key("btnLoginExistingUser")
+  String btnLoginExistingUser();
+
+  /**
    * Translated "Next".
    * 
    * @return translated "Next"
@@ -77,6 +86,24 @@ public interface SdackDemoAppStrings extends com.google.gwt.i18n.client.Constant
   @DefaultStringValue("OK")
   @Key("btnOk")
   String btnOk();
+
+  /**
+   * Translated "Register".
+   * 
+   * @return translated "Register"
+   */
+  @DefaultStringValue("Register")
+  @Key("btnRegister")
+  String btnRegister();
+
+  /**
+   * Translated "Register as a new user".
+   * 
+   * @return translated "Register as a new user"
+   */
+  @DefaultStringValue("Register as a new user")
+  @Key("btnRegisterNewUser")
+  String btnRegisterNewUser();
 
   /**
    * Translated "Search".
@@ -140,6 +167,15 @@ public interface SdackDemoAppStrings extends com.google.gwt.i18n.client.Constant
   @DefaultStringValue("Password")
   @Key("lblPassword")
   String lblPassword();
+
+  /**
+   * Translated "Repeat".
+   * 
+   * @return translated "Repeat"
+   */
+  @DefaultStringValue("Repeat")
+  @Key("lblRepeatPassword")
+  String lblRepeatPassword();
 
   /**
    * Translated "Welcome Message".

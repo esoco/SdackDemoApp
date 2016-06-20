@@ -1,4 +1,10 @@
 @external .sda-RootPanel, .sda-MainPanel;
 .sda-RootPanel, .sda-MainPanel {
-	
 }
+
+@external .error;
+
+.error {
+	border: 2px solid red;
+}
+

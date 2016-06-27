@@ -2,7 +2,7 @@ package org.sdack.app.demo.client.res.generated;
 
 /**
  * Interface to represent the constants contained in resource bundle:
- * 	'S:/eclipse/Lemarit/SdackDemoApp/src/main/java/org/sdack/app/demo/client/res/generated/SdackDemoAppStrings.properties'.
+ * 	'C:/Develop/Workspace/2016SS-SDACK/SdackDemoApp/src/main/java/org/sdack/app/demo/client/res/generated/SdackDemoAppStrings.properties'.
  */
 public interface SdackDemoAppStrings extends com.google.gwt.i18n.client.ConstantsWithLookup {
   

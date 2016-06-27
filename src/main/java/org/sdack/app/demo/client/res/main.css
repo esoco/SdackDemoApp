@@ -8,3 +8,7 @@
 	border: 2px solid red;
 }
 
+@external .Class, .gf-DataElement;
+td.Class, .gf-DataElement.Class {
+	height: 100%;
+}

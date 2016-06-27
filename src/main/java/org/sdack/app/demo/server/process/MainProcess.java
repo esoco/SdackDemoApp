@@ -16,15 +16,15 @@
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 package org.sdack.app.demo.server.process;
 
-import de.esoco.entity.EntityRelationTypes;
-
-import de.esoco.process.EntityProcessDefinition;
-import de.esoco.process.ProcessRelationTypes;
-import de.esoco.process.step.InteractionFragment;
+import static de.esoco.process.ProcessRelationTypes.SUB_PROCESS_SEPARATE_CONTEXT;
 
 import org.sdack.app.demo.server.entity.Person;
 
-import static de.esoco.process.ProcessRelationTypes.SUB_PROCESS_SEPARATE_CONTEXT;
+import de.esoco.entity.EntityRelationTypes;
+import de.esoco.lib.property.Layout;
+import de.esoco.process.EntityProcessDefinition;
+import de.esoco.process.ProcessRelationTypes;
+import de.esoco.process.step.InteractionFragment;
 
 
 /********************************************************************
@@ -65,16 +65,9 @@ public class MainProcess extends EntityProcessDefinition
 	{
 		//~ Enums --------------------------------------------------------------
 
-		/********************************************************************
-		 * Enumeration of the menu actions in this view.
-		 */
-		enum MenuAction { LOGOUT }
-
-		//~ Static fields/initializers -----------------------------------------
-
 		private static final long serialVersionUID = 1L;
 
-		//~ Methods ------------------------------------------------------------
+		//~ Static fields/initializers -----------------------------------------
 
 		/***************************************
 		 * {@inheritDoc}
@@ -82,6 +75,7 @@ public class MainProcess extends EntityProcessDefinition
 		@Override
 		public void init() throws Exception
 		{
+			layout(Layout.GRID);
 			buttons(MenuAction.class).onAction(this::handleMenuAction);
 
 			label("Welcome to the SDACK demo application.");
@@ -89,8 +83,10 @@ public class MainProcess extends EntityProcessDefinition
 			entityParam(Person.class).query(null)
 									 .attributes(EntityRelationTypes.ENTITY_ID,
 												 Person.LOGIN_NAME)
-									 .input();
+									 .input().hideLabel();
 		}
+
+		//~ Methods ------------------------------------------------------------
 
 		/***************************************
 		 * Handles menu events.
@@ -104,5 +100,10 @@ public class MainProcess extends EntityProcessDefinition
 				getProcess().logoutProcessUser();
 			}
 		}
+
+		/********************************************************************
+		 * Enumeration of the menu actions in this view.
+		 */
+		enum MenuAction { LOGOUT }
 	}
 }

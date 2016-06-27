@@ -17,6 +17,7 @@
 package org.sdack.app.demo.client;
 
 import de.esoco.data.element.StringDataElement;
+
 import de.esoco.ewt.build.ContainerBuilder;
 import de.esoco.ewt.component.Button;
 import de.esoco.ewt.component.Label;
@@ -26,9 +27,12 @@ import de.esoco.ewt.event.EWTEventHandler;
 import de.esoco.ewt.event.EventType;
 import de.esoco.ewt.style.StyleData;
 import de.esoco.ewt.style.StyleFlag;
+
 import de.esoco.gwt.client.ui.LoginHandler;
 import de.esoco.gwt.client.ui.LoginPanelManager;
 import de.esoco.gwt.client.ui.PanelManager;
+
+import org.sdack.app.demo.shared.SdackDemoService;
 
 
 /********************************************************************
@@ -134,6 +138,11 @@ public class LoginPanel extends LoginPanelManager
 		StringDataElement rLoginData =
 			super.createLoginData(sUserName, sPassword);
 
+		if (bRegistrationMode)
+		{
+			rLoginData.setFlag(SdackDemoService.REGISTER_NEW_USER);
+		}
+
 		return rLoginData;
 	}
 
@@ -146,8 +155,10 @@ public class LoginPanel extends LoginPanelManager
 	protected void login()
 	{
 		String sPassword = rPasswordField.getText();
-		if (bRegistrationMode && sPassword != null
-				&& !sPassword.equals(aPasswordVerification.getText()))
+
+		if (bRegistrationMode &&
+			sPassword != null &&
+			!sPassword.equals(aPasswordVerification.getText()))
 		{
 			rPasswordField.addStyleName("error");
 			aPasswordVerification.addStyleName("error");

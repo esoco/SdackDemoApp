@@ -1,6 +1,6 @@
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// This file is a part of the 'BasicWebApp' project.
-// Copyright 2015 Elmar Sonnenschein, esoco GmbH, Flensburg, Germany
+// This file is a part of the 'SdackDemoApp' project.
+// Copyright 2016 Elmar Sonnenschein, esoco GmbH, Flensburg, Germany
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,6 +18,8 @@ package org.sdack.app.demo.shared;
 
 import de.esoco.gwt.shared.GwtApplicationService;
 
+import de.esoco.lib.property.PropertyName;
+
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 
@@ -31,4 +33,11 @@ public interface SdackDemoService extends GwtApplicationService
 
 	/** The URL to the service */
 	public static final String SERVICE_URL = "srv";
+
+	/**
+	 * A flag property for the user data element to indicate that a new user
+	 * should be registered.
+	 */
+	public static final PropertyName<Boolean> REGISTER_NEW_USER =
+		PropertyName.newBooleanName("REGISTER_NEW_USER");
 }

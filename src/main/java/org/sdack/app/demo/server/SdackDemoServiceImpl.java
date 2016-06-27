@@ -16,30 +16,35 @@
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 package org.sdack.app.demo.server;
 
+import de.esoco.data.document.TabularDocumentWriter;
+import de.esoco.data.element.DataElementList;
+import de.esoco.data.element.StringDataElement;
+
+import de.esoco.entity.Entity;
+import de.esoco.entity.EntityManager;
+import de.esoco.entity.ExtraAttribute;
+
+import de.esoco.gwt.server.GwtApplicationServiceImpl;
+import de.esoco.gwt.shared.AuthenticationException;
+import de.esoco.gwt.shared.ServiceException;
+
+import de.esoco.history.HistoryRecord;
+
+import de.esoco.lib.logging.Log;
+import de.esoco.lib.property.PropertyName;
+import de.esoco.lib.security.BCrypt;
+
+import de.esoco.storage.Storage;
+import de.esoco.storage.StorageDefinition;
+import de.esoco.storage.StorageManager;
+import de.esoco.storage.impl.jdbc.JdbcStorageDefinition;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 
 import org.sdack.app.demo.server.entity.Person;
 import org.sdack.app.demo.server.process.MainProcess;
 import org.sdack.app.demo.shared.SdackDemoService;
-
-import de.esoco.data.document.TabularDocumentWriter;
-import de.esoco.data.element.DataElementList;
-import de.esoco.data.element.StringDataElement;
-import de.esoco.entity.Entity;
-import de.esoco.entity.EntityManager;
-import de.esoco.entity.ExtraAttribute;
-import de.esoco.gwt.server.GwtApplicationServiceImpl;
-import de.esoco.gwt.shared.AuthenticationException;
-import de.esoco.gwt.shared.ServiceException;
-import de.esoco.history.HistoryRecord;
-import de.esoco.lib.logging.Log;
-import de.esoco.lib.security.BCrypt;
-import de.esoco.storage.Storage;
-import de.esoco.storage.StorageDefinition;
-import de.esoco.storage.StorageException;
-import de.esoco.storage.StorageManager;
-import de.esoco.storage.impl.jdbc.JdbcStorageDefinition;
 
 
 /********************************************************************
@@ -70,20 +75,26 @@ public class SdackDemoServiceImpl extends GwtApplicationServiceImpl<Person>
 	public void init(ServletConfig rConfig) throws ServletException
 	{
 		super.init(rConfig);
-		
-		try 
+
+		PropertyName<Boolean> rInitProperty = REGISTER_NEW_USER;
+
+		try
 		{
-			EntityManager.init(Person.class, HistoryRecord.class, ExtraAttribute.class);
+			EntityManager.init(Person.class,
+							   HistoryRecord.class,
+							   ExtraAttribute.class);
 
 			Class.forName("org.h2.Driver");
-			
-			StorageDefinition aStorageDef = JdbcStorageDefinition.create("jdbc:h2:./test.db");
-			
+
+			StorageDefinition aStorageDef =
+				JdbcStorageDefinition.create("jdbc:h2:./test.db");
+
 			StorageManager.setDefaultStorage(aStorageDef);
-			
+
 			Storage rStorage = StorageManager.getStorage(Person.class);
-			
-			try {
+
+			try
+			{
 				rStorage.initObjectStorage(Person.class);
 				rStorage.initObjectStorage(HistoryRecord.class);
 				rStorage.initObjectStorage(ExtraAttribute.class);
@@ -92,27 +103,12 @@ public class SdackDemoServiceImpl extends GwtApplicationServiceImpl<Person>
 			{
 				rStorage.release();
 			}
-			
-			Person aAdminUser = EntityManager.queryEntity(Person.class, 
-					Person.LOGIN_NAME, "admin", true);
-			
-			if (aAdminUser == null)
-			{
-				aAdminUser = new Person();
-				
-				aAdminUser.set(Person.NAME, "Administrator");
-				aAdminUser.set(Person.LOGIN_NAME, "admin");
-				aAdminUser.set(Person.PASSWORD_HASH, BCrypt.hashpw("admin", BCrypt.gensalt()));
-				
-				EntityManager.storeEntity(aAdminUser, aAdminUser);
-			}
 		}
-		catch (Exception e) {
-			
+		catch (Exception e)
+		{
 			Log.fatal("Database initialization failed", e);
 			throw new ServletException(e);
 		}
-
 	}
 
 	/***************************************
@@ -122,30 +118,52 @@ public class SdackDemoServiceImpl extends GwtApplicationServiceImpl<Person>
 	protected Person authenticate(StringDataElement rLoginData)
 		throws AuthenticationException
 	{
-		String sLoginName = rLoginData.getName();
-		String sPassword = rLoginData.getValue();
+		String  sLoginName		 = rLoginData.getName();
+		String  sPassword		 = rLoginData.getValue();
+		boolean bRegisterNewUser = rLoginData.hasFlag(REGISTER_NEW_USER);
 
 		Person aUser;
-		try 
+
+		try
 		{
-			aUser = EntityManager.queryEntity(Person.class, 
-					Person.LOGIN_NAME, sLoginName, true);
-			
-			if (aUser == null)
+			aUser =
+				EntityManager.queryEntity(Person.class,
+										  Person.LOGIN_NAME,
+										  sLoginName,
+										  true);
+
+			if (bRegisterNewUser)
 			{
-				throw new AuthenticationException("msgAuthenticationFailed");
+				if (aUser != null)
+				{
+					throw new AuthenticationException("msgLoginNameUnavailable");
+				}
+
+				aUser = new Person();
+
+				aUser.set(Person.LOGIN_NAME, sLoginName);
+				aUser.set(Person.PASSWORD_HASH,
+						  BCrypt.hashpw(sPassword, BCrypt.gensalt()));
+
+				EntityManager.storeEntity(aUser, aUser);
 			}
-			
-			if (!BCrypt.checkpw(sPassword, aUser.get(Person.PASSWORD_HASH)))
+			else
 			{
-				throw new AuthenticationException("msgAuthenticationFailed");
+				if (aUser == null)
+				{
+					throw new AuthenticationException("msgAuthenticationFailed");
+				}
+
+				if (!BCrypt.checkpw(sPassword, aUser.get(Person.PASSWORD_HASH)))
+				{
+					throw new AuthenticationException("msgAuthenticationFailed");
+				}
 			}
-			
-		} catch (StorageException e) 
+		}
+		catch (Exception e)
 		{
 			throw new AuthenticationException("msgAuthenticationFailed");
 		}
-
 
 		return aUser;
 	}

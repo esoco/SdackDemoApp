@@ -16,8 +16,13 @@
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 package org.sdack.app.demo.server.process;
 
+import de.esoco.entity.EntityRelationTypes;
+
 import de.esoco.process.EntityProcessDefinition;
+import de.esoco.process.ProcessRelationTypes;
 import de.esoco.process.step.InteractionFragment;
+
+import org.sdack.app.demo.server.entity.Person;
 
 import static de.esoco.process.ProcessRelationTypes.SUB_PROCESS_SEPARATE_CONTEXT;
 
@@ -45,7 +50,7 @@ public class MainProcess extends EntityProcessDefinition
 		// parameter conflicts on repeated executions
 		setParameter(SUB_PROCESS_SEPARATE_CONTEXT, true);
 
-		invoke(WebAppMainView.class);
+		invoke(WebAppMainView.class).set(ProcessRelationTypes.FINAL_STEP);
 	}
 
 	//~ Inner Classes ----------------------------------------------------------
@@ -58,6 +63,13 @@ public class MainProcess extends EntityProcessDefinition
 	 */
 	public static class WebAppMainView extends InteractionFragment
 	{
+		//~ Enums --------------------------------------------------------------
+
+		/********************************************************************
+		 * Enumeration of the menu actions in this view.
+		 */
+		enum MenuAction { LOGOUT }
+
 		//~ Static fields/initializers -----------------------------------------
 
 		private static final long serialVersionUID = 1L;
@@ -70,8 +82,27 @@ public class MainProcess extends EntityProcessDefinition
 		@Override
 		public void init() throws Exception
 		{
-			textParam("Welcome").display()
-								.value("Welcome to the SDACK demo application.");
+			buttons(MenuAction.class).onAction(this::handleMenuAction);
+
+			label("Welcome to the SDACK demo application.");
+
+			entityParam(Person.class).query(null)
+									 .attributes(EntityRelationTypes.ENTITY_ID,
+												 Person.LOGIN_NAME)
+									 .input();
+		}
+
+		/***************************************
+		 * Handles menu events.
+		 *
+		 * @param eAction The menu action that occurred
+		 */
+		private void handleMenuAction(MenuAction eAction)
+		{
+			if (eAction == MenuAction.LOGOUT)
+			{
+				getProcess().logoutProcessUser();
+			}
 		}
 	}
 }

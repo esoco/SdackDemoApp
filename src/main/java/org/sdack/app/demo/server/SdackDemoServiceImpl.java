@@ -31,7 +31,6 @@ import de.esoco.gwt.shared.ServiceException;
 import de.esoco.history.HistoryRecord;
 
 import de.esoco.lib.logging.Log;
-import de.esoco.lib.property.PropertyName;
 import de.esoco.lib.security.BCrypt;
 
 import de.esoco.storage.Storage;
@@ -75,8 +74,6 @@ public class SdackDemoServiceImpl extends GwtApplicationServiceImpl<Person>
 	public void init(ServletConfig rConfig) throws ServletException
 	{
 		super.init(rConfig);
-
-		PropertyName<Boolean> rInitProperty = REGISTER_NEW_USER;
 
 		try
 		{

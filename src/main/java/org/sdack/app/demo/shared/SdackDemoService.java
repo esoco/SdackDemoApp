@@ -1,6 +1,6 @@
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// This file is a part of the 'BasicWebApp' project.
-// Copyright 2015 Elmar Sonnenschein, esoco GmbH, Flensburg, Germany
+// This file is a part of the 'SdackDemoApp' project.
+// Copyright 2016 Elmar Sonnenschein, esoco GmbH, Flensburg, Germany
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -31,4 +31,8 @@ public interface SdackDemoService extends GwtApplicationService
 
 	/** The URL to the service */
 	public static final String SERVICE_URL = "srv";
+
+	/** The name of the application process. */
+	public static final String APP_PROCESS =
+		"org.sdack.app.demo.server.process.MainProcess";
 }

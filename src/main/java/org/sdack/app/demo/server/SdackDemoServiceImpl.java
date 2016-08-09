@@ -17,7 +17,6 @@
 package org.sdack.app.demo.server;
 
 import de.esoco.data.document.TabularDocumentWriter;
-import de.esoco.data.element.DataElementList;
 import de.esoco.data.element.StringDataElement;
 
 import de.esoco.entity.Entity;
@@ -25,7 +24,6 @@ import de.esoco.entity.EntityManager;
 
 import de.esoco.gwt.server.GwtApplicationServiceImpl;
 import de.esoco.gwt.shared.AuthenticationException;
-import de.esoco.gwt.shared.ServiceException;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -65,6 +63,8 @@ public class SdackDemoServiceImpl extends GwtApplicationServiceImpl<Person>
 		super.init(rConfig);
 
 		EntityManager.init(Person.class);
+
+		setApplicationProcess(MainProcess.class);
 	}
 
 	/***************************************
@@ -106,23 +106,5 @@ public class SdackDemoServiceImpl extends GwtApplicationServiceImpl<Person>
 	protected Entity getServiceConfiguration()
 	{
 		return aGlobalConfiguration;
-	}
-
-	/***************************************
-	 * Overridden to set the main application process with {@link
-	 * #setApplicationProcess(DataElementList, Class)}.
-	 *
-	 * @see GwtApplicationServiceImpl#initUserData(DataElementList, Entity,
-	 *      String)
-	 */
-	@Override
-	protected void initUserData(DataElementList rUserData,
-								Person			rUser,
-								String			sUserName)
-		throws ServiceException
-	{
-		super.initUserData(rUserData, rUser, sUserName);
-
-		setApplicationProcess(rUserData, MainProcess.class);
 	}
 }

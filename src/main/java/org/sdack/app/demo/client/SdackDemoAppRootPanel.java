@@ -27,6 +27,8 @@ import de.esoco.ewt.style.StyleData;
 import de.esoco.gwt.client.app.ProcessPanelManager;
 import de.esoco.gwt.shared.ProcessState;
 
+import org.sdack.app.demo.shared.SdackDemoService;
+
 
 /********************************************************************
  * The root panel manager for the demo web application.
@@ -171,7 +173,6 @@ public class SdackDemoAppRootPanel
 		this.rUserData = rUserData;
 
 		removeApplicationPanel();
-
-		executeApplicationProcess(rUserData);
+		executeApplicationProcess(SdackDemoService.APP_PROCESS);
 	}
 }

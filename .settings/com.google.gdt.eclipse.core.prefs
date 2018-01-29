@@ -1,5 +1,6 @@
-eclipse.preferences.version=1
+#Mon Jan 29 11:55:27 CET 2018
 jarsExcludedFromWebInfLib=
-lastWarOutDir=C\:/Develop/Workspace/Lemarit/BasicWebApp/src/main/webapp
-warSrcDir=src/main/webapp
+warSrcDir=src/main/webapp/
+lastWarOutDir=S\:\\eclipse\\Lemarit\\SdackDemoApp\\war
+eclipse.preferences.version=1
 warSrcDirIsOutput=false

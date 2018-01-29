@@ -12,6 +12,7 @@ apply plugin: 'war'
 apply plugin: 'gwt'
 
 project.version = "1.0.0"
+sourceCompatibility = "1.8"
 
 repositories {
 	jcenter()
@@ -22,16 +23,10 @@ dependencies {
     testCompile 'junit:junit:4.+'
 }
 
-eclipse {
-	jdt {
-		sourceCompatibility = "1.7"
-		targetCompatibility = "1.7"
-	}
-}
-
 war { archiveName 'SdackDemoApp.war' }
 
 gwt {
-    gwtVersion = '2.7.0'
+    gwtVersion = '2.8.2'
     modules 'org.sdack.app.demo.SdackDemoApp'
+	maxHeapSize = "1024M";
 }

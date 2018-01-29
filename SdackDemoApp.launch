@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<launchConfiguration type="com.google.gdt.eclipse.suite.webapp">
-<stringAttribute key="com.google.gdt.eclipse.suiteMainTypeProcessor.PREVIOUSLY_SET_MAIN_TYPE_NAME" value="com.google.gwt.dev.DevMode"/>
-<booleanAttribute key="com.google.gdt.eclipse.suiteWarArgumentProcessor.IS_WAR_FROM_PROJECT_PROPERTIES" value="true"/>
-<listAttribute key="com.google.gwt.eclipse.core.ENTRY_POINT_MODULES">
+<launchConfiguration type="com.gwtplugins.gdt.eclipse.suite.webapp">
+<stringAttribute key="com.gwtplugins.gdt.eclipse.suiteMainTypeProcessor.PREVIOUSLY_SET_MAIN_TYPE_NAME" value="com.google.gwt.dev.DevMode"/>
+<booleanAttribute key="com.gwtplugins.gdt.eclipse.suiteWarArgumentProcessor.IS_WAR_FROM_PROJECT_PROPERTIES" value="false"/>
+<stringAttribute key="com.gwtplugins.gwt.eclipse.core.CLASSIC_DEVMODE_CODE_SERVER_PORT" value="9998"/>
+<listAttribute key="com.gwtplugins.gwt.eclipse.core.ENTRY_POINT_MODULES">
 <listEntry value="org.sdack.app.demo.SdackDemoApp"/>
 </listAttribute>
-<booleanAttribute key="com.google.gwt.eclipse.core.SUPERDEVMODE_ENABLED" value="true"/>
-<stringAttribute key="com.google.gwt.eclipse.core.URL" value="sdack-demo.html"/>
+<booleanAttribute key="com.gwtplugins.gwt.eclipse.core.SUPERDEVMODE_ENABLED" value="true"/>
+<stringAttribute key="com.gwtplugins.gwt.eclipse.core.URL" value="sdack-demo.html"/>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
 <listEntry value="/SdackDemoApp"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="4"/>
 </listAttribute>
-<stringAttribute key="org.eclipse.debug.ui.ATTR_CONSOLE_ENCODING" value="UTF-8"/>
-<stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="com.google.gwt.eclipse.core.moduleClasspathProvider"/>
+<listAttribute key="org.eclipse.debug.ui.favoriteGroups">
+<listEntry value="org.eclipse.debug.ui.launchGroup.debug"/>
+</listAttribute>
+<stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="com.gwtplugins.gwt.eclipse.core.moduleClasspathProvider"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.google.gwt.dev.DevMode"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-war &quot;${workspace_loc}/SdackDemoApp/src/main/webapp&quot; -remoteUI &quot;${gwt_remote_ui_server_port}:${unique_id}&quot; -startupUrl sdack-demo.html -logLevel INFO -codeServerPort 9997 -port 8888 org.sdack.app.demo.SdackDemoApp"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-logLevel INFO -codeServerPort 9998 -port 8888 -war &quot;${workspace_loc}/SdackDemoApp/src/main/webapp&quot; -remoteUI &quot;${gwt_remote_ui_server_port}:${unique_id}&quot; -startupUrl sdack-demo.html -workDir &quot;${gwt_work_dir}&quot; -extra &quot;${gwt_work_dir}&quot; -logLevel INFO org.sdack.app.demo.SdackDemoApp"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="SdackDemoApp"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xmx512m"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-ea -Xmx1024m -Desoco.log.level=INFO &quot;-Djava.io.tmpdir=${gwt_work_dir}&quot; &quot;-Dgwt.persistentunitcachedir=${gwt_work_dir}&quot;"/>
 </launchConfiguration>

@@ -1,6 +1,6 @@
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // This file is a part of the 'SdackDemoApp' project.
-// Copyright 2017 Elmar Sonnenschein, esoco GmbH, Flensburg, Germany
+// Copyright 2018 Elmar Sonnenschein, esoco GmbH, Flensburg, Germany
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 package org.sdack.app.demo.client;
 
 import de.esoco.data.element.DataElementList;
+import de.esoco.data.process.ProcessState;
 
 import de.esoco.ewt.build.ContainerBuilder;
 import de.esoco.ewt.component.Panel;
@@ -25,7 +26,6 @@ import de.esoco.ewt.style.AlignedPosition;
 import de.esoco.ewt.style.StyleData;
 
 import de.esoco.gwt.client.app.ProcessPanelManager;
-import de.esoco.gwt.shared.ProcessState;
 
 import org.sdack.app.demo.shared.SdackDemoService;
 

@@ -1,8 +1,8 @@
-apply from: '../sdack/settings.gradle'
-
-rootProject.children.each { project ->
-   	project.projectDir = new File(rootDir, '../sdack/' + project.name)
-}
-
 include ':sdack'
 project(':sdack').projectDir = new File('../sdack')
+
+['esoco-common','objectrelations','esoco-lib','esoco-storage','esoco-business',
+'gewt','esoco-gwt'].each { extProject ->
+    include ':' + extProject
+    project(':' + extProject).projectDir = new File('../sdack/' + extProject)
+}

@@ -1,6 +1,6 @@
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // This file is a part of the 'SdackDemoApp' project.
-// Copyright 2016 Elmar Sonnenschein, esoco GmbH, Flensburg, Germany
+// Copyright 2018 Elmar Sonnenschein, esoco GmbH, Flensburg, Germany
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,14 +19,16 @@ package org.sdack.app.demo.server;
 import de.esoco.data.document.TabularDocumentWriter;
 import de.esoco.data.element.StringDataElement;
 
-import de.esoco.entity.Entity;
 import de.esoco.entity.EntityManager;
 
 import de.esoco.gwt.server.GwtApplicationServiceImpl;
 import de.esoco.gwt.shared.AuthenticationException;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+
+import org.obrel.core.ProvidesConfiguration;
+import org.obrel.core.RelatedObject;
+import org.obrel.core.RelationType;
 
 import org.sdack.app.demo.server.entity.Person;
 import org.sdack.app.demo.server.process.MainProcess;
@@ -37,7 +39,7 @@ import org.sdack.app.demo.shared.SdackDemoService;
  * The server-side implementation of the RPC service.
  */
 public class SdackDemoServiceImpl extends GwtApplicationServiceImpl<Person>
-	implements SdackDemoService
+	implements SdackDemoService, ProvidesConfiguration
 {
 	//~ Static fields/initializers ---------------------------------------------
 
@@ -45,12 +47,7 @@ public class SdackDemoServiceImpl extends GwtApplicationServiceImpl<Person>
 
 	//~ Instance fields --------------------------------------------------------
 
-	/**
-	 * An entity that holds the global application configuration. This should
-	 * typically be read from the database and could use extra attributes for
-	 * the configuration values.
-	 */
-	private Entity aGlobalConfiguration = null;
+	private RelatedObject aServiceConfig = new RelatedObject();
 
 	//~ Methods ----------------------------------------------------------------
 
@@ -58,9 +55,19 @@ public class SdackDemoServiceImpl extends GwtApplicationServiceImpl<Person>
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void init(ServletConfig rConfig) throws ServletException
+	public <T> T getConfigValue(RelationType<T> rType, T rDefaultValue)
 	{
-		super.init(rConfig);
+		return aServiceConfig.hasRelation(rType) ? aServiceConfig.get(rType)
+												 : rDefaultValue;
+	}
+
+	/***************************************
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void init() throws ServletException
+	{
+		super.init();
 
 		EntityManager.init(Person.class);
 
@@ -103,8 +110,8 @@ public class SdackDemoServiceImpl extends GwtApplicationServiceImpl<Person>
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected Entity getServiceConfiguration()
+	protected ProvidesConfiguration getServiceConfiguration()
 	{
-		return aGlobalConfiguration;
+		return this;
 	}
 }

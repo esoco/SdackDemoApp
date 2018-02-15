@@ -1,6 +1,6 @@
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // This file is a part of the 'SdackDemoApp' project.
-// Copyright 2016 Elmar Sonnenschein, esoco GmbH, Flensburg, Germany
+// Copyright 2018 Elmar Sonnenschein, esoco GmbH, Flensburg, Germany
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,15 +16,12 @@
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 package org.sdack.app.demo.client;
 
-import de.esoco.ewt.app.EWTModule;
-
 import de.esoco.gwt.client.app.GwtApplication;
 import de.esoco.gwt.shared.GwtApplicationServiceAsync;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.sdack.app.demo.client.res.MainCss;
 import org.sdack.app.demo.client.res.SdackDemoAppResources;
 import org.sdack.app.demo.client.res.generated.SdackDemoAppStrings;
 import org.sdack.app.demo.shared.SdackDemoService;
@@ -42,18 +39,6 @@ public class SdackDemoApp extends GwtApplication
 	//~ Static fields/initializers ---------------------------------------------
 
 	private static final String COOKIE_PREFIX = "WEBAPP";
-
-	//~ Static methods ---------------------------------------------------------
-
-	/***************************************
-	 * Convenience method to access the CSS class from the application resource.
-	 *
-	 * @return The application CSS
-	 */
-	public static MainCss css()
-	{
-		return SdackDemoAppResources.INSTANCE.css();
-	}
 
 	//~ Methods ----------------------------------------------------------------
 
@@ -88,15 +73,6 @@ public class SdackDemoApp extends GwtApplication
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected EWTModule getApplicationModule()
-	{
-		return new SdackDemoAppModule();
-	}
-
-	/***************************************
-	 * {@inheritDoc}
-	 */
-	@Override
 	protected ConstantsWithLookup[] getApplicationStrings()
 	{
 		ConstantsWithLookup aStrings = GWT.create(SdackDemoAppStrings.class);
@@ -121,15 +97,7 @@ public class SdackDemoApp extends GwtApplication
 	{
 		super.injectApplicationCss();
 
-		css().ensureInjected();
+		SdackDemoAppResources.INSTANCE.css().ensureInjected();
 		SdackDemoAppResources.INSTANCE.css_generated().ensureInjected();
-	}
-
-	/***************************************
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void start()
-	{
 	}
 }

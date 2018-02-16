@@ -1,6 +1,6 @@
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // This file is a part of the 'SdackDemoApp' project.
-// Copyright 2016 Elmar Sonnenschein, esoco GmbH, Flensburg, Germany
+// Copyright 2018 Elmar Sonnenschein, esoco GmbH, Flensburg, Germany
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,18 +16,16 @@
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 package org.sdack.app.demo.server.process;
 
-import de.esoco.process.EntityProcessDefinition;
+import de.esoco.process.StepListProcessDefinition;
 import de.esoco.process.step.InteractionFragment;
-
-import static de.esoco.process.ProcessRelationTypes.SUB_PROCESS_SEPARATE_CONTEXT;
 
 
 /********************************************************************
- * The mainprocess of the application.
+ * The main process of the application.
  *
  * @author eso
  */
-public class MainProcess extends EntityProcessDefinition
+public class MainProcess extends StepListProcessDefinition
 {
 	//~ Static fields/initializers ---------------------------------------------
 
@@ -41,22 +39,17 @@ public class MainProcess extends EntityProcessDefinition
 	@SuppressWarnings("boxing")
 	public MainProcess()
 	{
-		// always invoke sub-processes in their own context to prevent
-		// parameter conflicts on repeated executions
-		setParameter(SUB_PROCESS_SEPARATE_CONTEXT, true);
-
-		invoke(WebAppMainView.class);
+		invoke(MainView.class);
 	}
 
 	//~ Inner Classes ----------------------------------------------------------
 
 	/********************************************************************
-	 * The interaction fragment that displays the main view of the customer
-	 * self-care application.
+	 * The process step that displays the main view of the application.
 	 *
 	 * @author eso
 	 */
-	public static class WebAppMainView extends InteractionFragment
+	public static class MainView extends InteractionFragment
 	{
 		//~ Static fields/initializers -----------------------------------------
 

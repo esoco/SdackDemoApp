@@ -19,8 +19,8 @@ package org.sdack.app.demo.client;
 import de.esoco.gwt.client.app.GwtApplication;
 import de.esoco.gwt.shared.GwtApplicationServiceAsync;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.sdack.app.demo.client.res.SdackDemoAppResources;
 import org.sdack.app.demo.client.res.generated.SdackDemoAppStrings;
@@ -28,7 +28,6 @@ import org.sdack.app.demo.shared.SdackDemoService;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.ConstantsWithLookup;
-import com.google.gwt.resources.client.ImageResource;
 
 
 /********************************************************************
@@ -36,10 +35,6 @@ import com.google.gwt.resources.client.ImageResource;
  */
 public class SdackDemoApp extends GwtApplication
 {
-	//~ Static fields/initializers ---------------------------------------------
-
-	private static final String COOKIE_PREFIX = "WEBAPP";
-
 	//~ Methods ----------------------------------------------------------------
 
 	/***************************************
@@ -52,41 +47,16 @@ public class SdackDemoApp extends GwtApplication
 	}
 
 	/***************************************
-	 * Returns the image resource map for this application.
-	 *
-	 * @return The image resource map
-	 */
-	@Override
-	protected Map<String, ImageResource> getApplicationImages()
-	{
-		Map<String, ImageResource> aImageResources =
-			new HashMap<String, ImageResource>();
-
-		SdackDemoAppResources rResources = SdackDemoAppResources.INSTANCE;
-
-		aImageResources.put("imWarning", rResources.imWarning());
-
-		return aImageResources;
-	}
-
-	/***************************************
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected ConstantsWithLookup[] getApplicationStrings()
+	protected List<ConstantsWithLookup> getStringResources()
 	{
-		ConstantsWithLookup aStrings = GWT.create(SdackDemoAppStrings.class);
+		List<ConstantsWithLookup> aStrings = new ArrayList<>();
 
-		return new ConstantsWithLookup[] { aStrings };
-	}
+		aStrings.add(GWT.create(SdackDemoAppStrings.class));
 
-	/***************************************
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected String getCookiePrefix()
-	{
-		return COOKIE_PREFIX;
+		return aStrings;
 	}
 
 	/***************************************

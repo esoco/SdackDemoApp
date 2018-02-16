@@ -16,7 +16,6 @@
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 package org.sdack.app.demo.server;
 
-import de.esoco.data.document.TabularDocumentWriter;
 import de.esoco.data.element.StringDataElement;
 
 import de.esoco.entity.EntityManager;
@@ -86,24 +85,6 @@ public class SdackDemoServiceImpl extends GwtApplicationServiceImpl<Person>
 		aUser.set(Person.LOGIN_NAME, rLoginData.getName());
 
 		return aUser;
-	}
-
-	/***************************************
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected TabularDocumentWriter<byte[]> createTableDownloadDocumentWriter()
-	{
-		throw new UnsupportedOperationException("not implemented");
-	}
-
-	/***************************************
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected String getApplicationStringPropertiesFile()
-	{
-		return "data/res/SdackDemoAppStrings.properties";
 	}
 
 	/***************************************
